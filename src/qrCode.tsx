@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { TextField, Button, Grid, Card, Typography } from '@mui/material';
 import QRCode from 'qrcode.react';
 
-const QRCodeGenerator = () => {
-    const [text, setText] = useState('');
+const QRCodeGenerator: React.FC = () => {
+    const [text, setText] = useState<string>('');
+    const [selectedStyle, setSelectedStyle] = useState<string>('style1'); // Default selected style
+
+    const handleStyleChange = (style: string) => {
+        setSelectedStyle(style);
+    };
 
     const downloadQRCode = () => {
         const canvas = document.querySelector('canvas');
@@ -15,9 +20,9 @@ const QRCodeGenerator = () => {
     };
 
     return (
-        <Grid container justifyContent="center" alignItems="center" spacing={2} style={{ minHeight: '100vh' }}>
+        <Grid container justifyContent="center" alignItems="center" spacing={2}>
             <Grid item xs={12} sm={8} md={6}>
-                <Card elevation={3} sx={{ padding: 3 }}>
+                <Card elevation={3} sx={{ p: 3 }}>
                     <Typography variant="h4" gutterBottom>Generate QR Code</Typography>
                     <TextField
                         fullWidth
@@ -25,14 +30,14 @@ const QRCodeGenerator = () => {
                         label="Enter text or URL"
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        sx={{ marginBottom: 2 }}
+                        sx={{ mb: 2 }}
                     />
                     <Button
                         fullWidth
                         variant="contained"
                         color="primary"
                         onClick={() => setText('')}
-                        sx={{ marginBottom: 2 }}
+                        sx={{ mb: 2 }}
                     >
                         Clear
                     </Button>
@@ -44,19 +49,50 @@ const QRCodeGenerator = () => {
                     >
                         Download QR Code
                     </Button>
-                </Card>
+                </Card> 
             </Grid>
             {text && (
                 <Grid item xs={12} sm={8} md={6}>
-                    <Card elevation={3} sx={{ padding: 3 }}>
-                        <QRCode
-                            value={text}
-                            size={200}
-                            level={"H"}
-                            includeMargin={true}
-                            renderAs="canvas" 
-                            className="mx-auto transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                        />
+                    <Card elevation={3} sx={{ p: 3 }}>
+                        <div className="qr-code-container">
+                            {selectedStyle === 'style1' && (
+                                <QRCode
+                                    value={text}
+                                    size={200}
+                                    level="H"
+                                    includeMargin={true}
+                                    renderAs="canvas"
+                                    className="qr-code-style1"
+                                />
+                            )}
+                            {selectedStyle === 'style2' && (
+                                <QRCode
+                                    value={text}
+                                    size={200}
+                                    level="H"
+                                    includeMargin={true}
+                                    renderAs="canvas"
+                                    style={{color:'red', background: 'red'}}
+
+                                    className="qr-code-style2"
+                                />
+                            )}
+                            {selectedStyle === 'style3' && (
+                                <QRCode
+                                    value={text}
+                                    size={200}
+                                    level="H"
+                                    includeMargin={true}
+                                    renderAs="canvas"
+                                    className="qr-code-style3"
+                                />
+                            )}
+                        </div>
+                        <div className="style-selector">
+                            <button onClick={() => handleStyleChange('style1')}>Style 1</button>
+                            <button onClick={() => handleStyleChange('style2')}>Style 2</button>
+                            <button onClick={() => handleStyleChange('style3')}>Style 3</button>
+                        </div>
                     </Card>
                 </Grid>
             )}

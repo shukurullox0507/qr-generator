@@ -16,6 +16,7 @@
     "antd": "^5.14.0",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
+    "qr-code-styling": "^1.6.0-rc.1",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
